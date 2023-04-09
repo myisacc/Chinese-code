@@ -1,0 +1,163 @@
+{
+  "name": "ChineseInputAssistant",
+  "displayName": "中文代码快速补全",
+  "description": "中文标识符（变量、方法名等）无需切换中文输入法即有补全提示",
+  "version": "1.5.8",
+  "publisher": "CodeInChinese",
+  "engines": {
+    "vscode": "^1.38.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "中文代码快速补全",
+      "properties": {
+        "ChineseInputAssistant.triggerChar": {
+          "markdownDescription": "触发补全的字符",
+          "type": "array",
+          "default": [
+            "$",
+            ":"
+          ]
+        },
+        "ChineseInputAssistant.disabledLanguage": {
+          "type": "array",
+          "description": "禁用补全的语言",
+          "default": [
+            ".md"
+          ]
+        },
+        "ChineseInputAssistant.spellDictionaries": {
+          "markdownDescription": "拼写字典, 请参阅[此文档](https://gitee.com/Program-in-Chinese/vscode_Chinese_Input_Assistant/blob/master/%E6%96%87%E6%A1%A3/%E6%8B%BC%E5%86%99%E5%AD%97%E5%85%B8%E8%AF%B4%E6%98%8E.md).",
+          "type": "array",
+          "default": [
+            "pinyin_simp.dict.txt"
+          ]
+        },
+        "ChineseInputAssistant.useLocInput": {
+          "markdownDescription": "使用本地输入法",
+          "type": "string",
+          "default": "yes",
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "enumDescriptions": [
+            "是",
+            "否"
+          ]
+        },
+        "ChineseInputAssistant.InputDictionaries": {
+          "markdownDescription": "本地输入法字典, 请参阅[此文档](https://gitee.com/Program-in-Chinese/vscode_Chinese_Input_Assistant/blob/master/%E6%96%87%E6%A1%A3/%E6%9C%AC%E5%9C%B0%E8%BE%93%E5%85%A5%E6%B3%95%E5%AD%97%E5%85%B8%E8%AF%B4%E6%98%8E.md).",
+          "type": "array",
+          "default": [
+            "pinyin_simp.dict.txt"
+          ]
+        },
+        "ChineseInputAssistant.useCompletionItem": {
+          "type": "string",
+          "description": "使用vsc补全项",
+          "default": "yes",
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "enumDescriptions": [
+            "是",
+            "否"
+          ]
+        },
+        "ChineseInputAssistant.useFileWord": {
+          "type": "string",
+          "description": "使用当前文件分词",
+          "default": "yes",
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "enumDescriptions": [
+            "是",
+            "否"
+          ]
+        },
+        "ChineseInputAssistant.netInputMethod": {
+          "type": "string",
+          "description": "网络输入法",
+          "default": "no",
+          "enum": [
+            "no",
+            "Google Pinyin",
+            "Baidu Sugrec"
+          ],
+          "enumDescriptions": [
+            "不使用输入法",
+            "谷歌拼音输入法(需能访问谷歌api)",
+            "百度搜索联想"
+          ]
+        },
+        "ChineseInputAssistant.netInputMethodProxy": {
+          "description": "网络输入法代理",
+          "type": "string"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./片段/javascript.json"
+      },
+      {
+        "language": "python",
+        "path": "./片段/python.json"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "webpack",
+    "build:prod": "npm i && webpack --mode production --devtool hidden-source-map",
+    "watch": "webpack --watch",
+    "prepackage": "npm run build:prod",
+    "package": "vsce package --baseImagesUrl https://gitee.com/Program-in-Chinese/vscode_Chinese_Input_Assistant/raw/master/",
+    "pretest": "tsc -p . --outDir out",
+    "test": "mocha out/test/index.test.js --bail --timeout 99999999",
+    "prepub": "npm run package",
+    "pub": "bash ./script/发布项目.sh",
+    "format:all": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/Program-in-Chinese/vscode_Chinese_Input_Assistant.git"
+  },
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "memoizerific": "^1.11.3",
+    "open": "^8.4.0",
+    "pinyin": "^3.0.0-alpha.5",
+    "pinyin-data": "1.0.0",
+    "ramda": "^0.27.1",
+    "request": "^2.88.2",
+    "wubi-code-data": "1.0.2"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/ramda": "^0.28.15",
+    "@types/request": "^2.48.8",
+    "@types/vscode": "^1.38.0",
+    "@vscode/test-electron": "^2.1.5",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "vscode-test": "^1.2.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
